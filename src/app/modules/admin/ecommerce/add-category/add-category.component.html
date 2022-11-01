@@ -1,0 +1,68 @@
+<div class="flex items-center justify-between w-full dash-heading">
+    <div class=" w-8/12">
+        <div class="text-2xl font-semibold tracking-tight leading-8 ">Create New Category</div>
+    </div>
+    <div class="flex items-center ml-6">
+        <button (click)="onClose()">
+            <mat-icon class="text-red-500">cancel</mat-icon>
+        </button>
+    </div>
+</div>
+
+<form autocomplete="off"
+     class="mt-8"
+     [formGroup]="categoryForm">
+
+    <div class="flex w-full">
+        <div class="w-6/12">
+            <mat-form-field class="w-full" floatLabel="always">
+                <svg class="mr-3" width="20" height="21" viewBox="0 0 18 21" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M8.75 10.5C10.1562 10.474 11.3411 9.99219 12.3047 9.05469C13.2422 8.09115 13.724 6.90625 13.75 5.5C13.724 4.09375 13.2422 2.90885 12.3047 1.94531C11.3411 1.00781 10.1562 0.526042 8.75 0.5C7.34375 0.526042 6.15885 1.00781 5.19531 1.94531C4.25781 2.90885 3.77604 4.09375 3.75 5.5C3.77604 6.90625 4.25781 8.09115 5.19531 9.05469C6.15885 9.99219 7.34375 10.474 8.75 10.5ZM8.75 1.75C9.81771 1.77604 10.7031 2.14062 11.4062 2.84375C12.1094 3.54688 12.474 4.43229 12.5 5.5C12.474 6.56771 12.1094 7.45312 11.4062 8.15625C10.7031 8.85938 9.81771 9.22396 8.75 9.25C7.68229 9.22396 6.79688 8.85938 6.09375 8.15625C5.39062 7.45312 5.02604 6.56771 5 5.5C5.02604 4.43229 5.39062 3.54688 6.09375 2.84375C6.79688 2.14062 7.68229 1.77604 8.75 1.75ZM10.7422 12.375H6.75781C4.85677 12.4271 3.26823 13.0911 1.99219 14.3672C0.716146 15.6432 0.0520833 17.2318 0 19.1328C0 19.5234 0.130208 19.849 0.390625 20.1094C0.651042 20.3698 0.976562 20.5 1.36719 20.5H16.1328C16.5234 20.5 16.849 20.3698 17.1094 20.1094C17.3698 19.849 17.5 19.5234 17.5 19.1328C17.4479 17.2318 16.7839 15.6432 15.5078 14.3672C14.2318 13.0911 12.6432 12.4271 10.7422 12.375ZM16.1328 19.25H1.36719C1.28906 19.25 1.25 19.2109 1.25 19.1328C1.30208 17.5703 1.83594 16.2682 2.85156 15.2266C3.89323 14.2109 5.19531 13.6771 6.75781 13.625H10.7422C12.3047 13.6771 13.6068 14.2109 14.6484 15.2266C15.6641 16.2682 16.1979 17.5703 16.25 19.1328C16.25 19.2109 16.2109 19.25 16.1328 19.25Z"
+                        fill="#32409a"/>
+                </svg>
+                <mat-label>Category Name</mat-label>
+                <input
+                    id="name"
+                    matInput
+                    [formControlName]="'categoryName'"
+                    placeholder="Event Name">
+            </mat-form-field>
+
+            <mat-form-field class="w-full" appearance="fill" floatLabel="always">
+                <mat-label>Category Description</mat-label>
+                <textarea matInput formControlName="categoryDescription"
+                          placeholder="Enter Description..."></textarea>
+            </mat-form-field>
+        </div>
+        <div class="w-6/12 flex justify-center">
+            <img style=" height:85%;width:80%" [src]="_d.bypassSecurityTrustUrl(imgsrc)">
+            <input #imageF style="display: none" type="file" accept="image/png, image/gif, image/jpeg"
+                   (change)="fileChange($event)">
+        </div>
+    </div>
+
+    <div class="flex place-content-end">
+        <button
+            (click)="imageF.click()"
+            type="button"
+            class="fuse-mat-button-large  ml-2 mt-6"
+            mat-flat-button
+            [color]="'primary'">
+            Upload Image
+        </button>
+        <button
+            class="fuse-mat-button-large  ml-2 mt-6"
+            mat-flat-button
+            [color]="'primary'">
+            Save
+        </button>
+        <button
+            class="fuse-mat-button-large  ml-2 mt-6"
+            mat-flat-button
+            [color]="'primary'">
+            Update
+        </button>
+    </div>
+</form>
