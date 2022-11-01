@@ -1,1 +1,109 @@
-<p>items works!</p>
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Items
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="flex flex-wrap items-start w-full max-w-400 -m-4">
+
+               <fuse-card class="card cardtitle flex flex-col max-w-80 w-full filter-listing"
+                          [flippable]="true"
+                          [face]="'front'"
+                          #flippableCard01="fuseCard">
+                   <ng-container fuseCardFront>
+                       <div class="container">
+                           <img
+                               class="object-cover"
+                               src="assets/images/cards/coffee-shop-01-320x200.jpg"
+                               alt="Card cover image">
+                           <mat-icon class="button hovBut1" type="button" (click)="alertt('2')">edit</mat-icon>
+                           <mat-icon class="button hovBut2" type="button" (click)="alertt('3')">remove_red_eye</mat-icon>
+                           <mat-icon class="button hovBut3" type="button" (click)="alertt('1')">delete</mat-icon>
+                       </div>
+                   <div class="m-8 mb-4">
+                       <div class="text-2xl font-semibold leading-tight">Puzzles Coffee Shop</div>
+                       <div class="flex items-center leading-none mt-2 -ml-1">
+                           <div class="flex items-center">
+                               <mat-icon
+                                   class="text-orange-500 icon-size-5"
+                                   [svgIcon]="'mat_outline:star'"></mat-icon>
+                               <mat-icon
+                                   class="text-orange-500 icon-size-5"
+                                   [svgIcon]="'mat_outline:star'"></mat-icon>
+                               <mat-icon
+                                   class="text-orange-500 icon-size-5"
+                                   [svgIcon]="'mat_outline:star'"></mat-icon>
+                               <mat-icon
+                                   class="text-orange-500 icon-size-5"
+                                   [svgIcon]="'mat_outline:star'"></mat-icon>
+                               <mat-icon
+                                   class="text-orange-500 icon-size-5"
+                                   [svgIcon]="'mat_outline:star_half'"></mat-icon>
+                           </div>
+                           <div class="text-secondary ml-2">4.5</div>
+                           <div class="text-secondary mx-2">&bull;</div>
+                           <div class="text-secondary">98 reviews</div>
+                       </div>
+                       <div class="mt-4">
+                           <strong>Price</strong>: <b class="text-secondary">$20</b>
+                       </div>
+                       <div class="mt-6">
+                           Puzzles coffee shop is one of the finest coffee shops in central downtown in New York.
+                           It's quiet; far away from busy streets and never ending constructions.
+                       </div>
+                       <div class="flex items-center mt-3 -mx-3">
+                           <button
+                               class="px-3"
+                               mat-button
+                               [color]="'primary'"
+                               (click)="flippableCard01.face = flippableCard01.face === 'front' ? 'back' : 'front'">
+                               Read More
+                           </button>
+                           <button
+                               class="px-3"
+                               mat-button
+                               [color]="'primary'"
+                               [routerLink]="['./']">
+                               Reviews
+                           </button>
+                       </div>
+                   </div>
+                   </ng-container>
+                   <ng-container fuseCardBack>
+                       <div class="flex flex-col flex-auto m-4">
+                           <button
+                               class="ml-1.5"
+                               mat-icon-button
+                               (click)="flippableCard01.face = flippableCard01.face === 'front' ? 'back' : 'front'">
+                               <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                           </button>
+                           <div class="m-4 mt-3">
+                               <div class="text-2xl font-semibold leading-tight">
+                                   Most beautiful and quite places to see
+                               </div>
+                               <div class="mt-4">
+                                   From rocky mountains to crystal clear lakes, these are the places you must see and enjoy.
+                                   You can bring your own food and have a little picnic on top of the amazing grasslands.
+                               </div>
+                               <div class="mt-4">
+                                   From rocky mountains to crystal clear lakes, these are the places you must see and enjoy.
+                                   You can bring your own food and have a little picnic on top of the amazing grasslands.
+                               </div>
+                           </div>
+                       </div>
+                   </ng-container>
+               </fuse-card>
+        </div>
+
+    </div>
+
+</div>

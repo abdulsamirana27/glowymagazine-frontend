@@ -20,14 +20,17 @@ import {MatDividerModule} from "@angular/material/divider";
 import {FuseCardModule} from "../../../../@fuse/components/card";
 import {CategoryComponent} from "./Category/category.component";
 import {ItemsComponent} from "./items/items.component";
+import { AddCategoryComponent } from './add-category/add-category.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 
 @NgModule({
     declarations: [
         CategoryComponent,
-        ItemsComponent
+        ItemsComponent,
+        AddCategoryComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(ecommerceRoutes),
         MatButtonModule,
         MatCheckboxModule,
@@ -65,6 +68,7 @@ import {ItemsComponent} from "./items/items.component";
         MatProgressBarModule,
         MatTooltipModule,
         FuseCardModule,
+        MatDatepickerModule,
     ]
 })
 export class ECommerceModule

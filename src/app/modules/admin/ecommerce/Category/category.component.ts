@@ -1,6 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, QueryList, Renderer2, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { FuseCardComponent } from '@fuse/components/card';
+import {Router} from "@angular/router";
+import {AddCategoryComponent} from "../add-category/add-category.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     selector       : 'category',
@@ -13,14 +16,17 @@ export class CategoryComponent implements AfterViewInit
 {
     @ViewChildren(FuseCardComponent, {read: ElementRef}) private _fuseCards: QueryList<ElementRef>;
 
-    filters: string[] = [ 'article', 'listing',];
+    filters: string[] = [ 'article'];
     numberOfCards: any = {};
     selectedFilter: string = 'all';
+    isView:boolean = true;
 
     /**
      * Constructor
      */
-    constructor(private _renderer2: Renderer2)
+    constructor(private _renderer2: Renderer2,
+                private _router: Router,
+                private dialogRef: MatDialog)
     {
     }
 
@@ -121,5 +127,27 @@ export class CategoryComponent implements AfterViewInit
                 }
             }
         });
+    }
+    alertt(val){
+        this.isView = false;
+        alert(val)
+    }
+
+    viewItem() {
+        // this.isView = true;
+        if(this.isView) this._router.navigateByUrl('/ecommerce/items/123');
+    }
+
+    addCategory() {
+        const dialog = this.dialogRef.open(AddCategoryComponent, {
+            width: '50%',
+            //data: user
+        })
+        dialog.afterClosed().pipe().subscribe(value => {
+
+            if (!value) {
+
+            }
+        })
     }
 }
