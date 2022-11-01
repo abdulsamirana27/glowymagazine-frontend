@@ -73,6 +73,7 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'project', loadChildren: () => import('app/modules/project/project.module').then(m => m.ProjectModule)},
 
+             {path: 'ecommerce', loadChildren: () => import('app/modules/admin/ecommerce/ecommerce.module').then(m => m.ECommerceModule)},
             // 404 & Catch all
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module)},
             {path: '**', redirectTo: '404-not-found'}

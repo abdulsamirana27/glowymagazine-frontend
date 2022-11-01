@@ -21,74 +21,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
-        id      : 'user-interface',
-        title   : 'User Interface',
-        subtitle: '',
+        id      : 'apps.ecommerce',
+        title   : 'ECommerce',
         type    : 'collapsable',
-        icon    : 'heroicons_outline:collection',
+        icon    : 'heroicons_outline:shopping-cart',
         children: [
+            // {
+            //     id   : 'apps.ecommerce.inventory',
+            //     title: 'Inventory',
+            //     type : 'basic',
+            //     link : '/ecommerce/inventory'
+            // },
             {
-                id   : 'user-interface.datatable',
-                title: 'Datatable',
+                id   : 'apps.ecommerce.inventory',
+                title: 'Category',
                 type : 'basic',
-                icon : 'heroicons_outline:view-list',
-                link : '/ui/datatable'
-            },
-            {
-                id      : 'user-interface.forms',
-                title   : 'Forms',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:pencil-alt',
-                children: [
-                    {
-                        id   : 'user-interface.forms.fields',
-                        title: 'Fields',
-                        type : 'basic',
-                        link : '/ui/forms/fields'
-                    },
-                    {
-                        id   : 'user-interface.forms.layouts',
-                        title: 'Layouts',
-                        type : 'basic',
-                        link : '/ui/forms/layouts'
-                    },
-                    {
-                        id   : 'user-interface.forms.wizards',
-                        title: 'Wizards',
-                        type : 'basic',
-                        link : '/ui/forms/wizards'
-                    }
-                ]
-            },
-        ]
-    },
-    {
-        id      : 'documentation',
-        title   : 'Documentation',
-        subtitle: '',
-        type    : 'collapsable',
-        icon    : 'heroicons_outline:support',
-        children: [
-            {
-                id   : 'documentation.changelog',
-                title: 'Changelog',
-                type : 'basic',
-                icon : 'heroicons_outline:speakerphone',
-                link : '/docs/changelog',
-                badge: {
-                    title  : '13.5.0',
-                    classes: 'px-2 bg-yellow-300 text-black rounded-full'
-                }
-            },
-            {
-                id   : 'documentation.guides',
-                title: 'Guides',
-                type : 'basic',
-                icon : 'heroicons_outline:book-open',
-                link : '/docs/guides'
+                link : '/ecommerce/category'
             }
         ]
-    }
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {

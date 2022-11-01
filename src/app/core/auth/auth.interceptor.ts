@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { AuthService } from 'app/core/auth/auth.service';
-import { AuthUtils } from 'app/core/auth/auth.utils';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, switchMap, map} from 'rxjs/operators';
+import {AuthService} from 'app/core/auth/auth.service';
+import {AuthUtils} from 'app/core/auth/auth.utils';
+import {Router} from "@angular/router";
+import {fromPromise} from "rxjs/internal-compatibility";
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor
-{
+export class AuthInterceptor implements HttpInterceptor {
     /**
      * Constructor
      */
-    constructor(private _authService: AuthService)
-    {
+    constructor(private _authService: AuthService,
+                private _router: Router) {
     }
 
     /**
@@ -21,40 +22,44 @@ export class AuthInterceptor implements HttpInterceptor
      * @param req
      * @param next
      */
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
-    {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // Clone the request object
+
+        debugger
         let newReq = req.clone();
-
-        // Request
-        //
-        // If the access token didn't expire, add the Authorization header.
-        // We won't add the Authorization header if the access token expired.
-        // This will force the server to return a "401 Unauthorized" response
-        // for the protected API routes which our response interceptor will
-        // catch and delete the access token from the local storage while logging
-        // the user out from the app.
-        if ( this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken) )
-        {
+        if(!newReq.url.includes){
             newReq = req.clone({
-                headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
+                headers: req.headers
             });
+
+            if (this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken)) {
+                newReq = req.clone({
+                    headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
+                });
+            }
         }
+        return next.handle(newReq).pipe(catchError((error: any) => {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    let refresh_token = localStorage.getItem('refresh_token');
+                    if (refresh_token) {
 
-        // Response
-        return next.handle(newReq).pipe(
-            catchError((error) => {
+                        return fromPromise(this._authService.refreshToken(refresh_token)).pipe(switchMap((resp: any) => {
+                            if (resp.success) {
 
-                // Catch "401 Unauthorized" responses
-                if ( error instanceof HttpErrorResponse && error.status === 401 )
-                {
-                    // Sign out
-                    this._authService.signOut();
+                                localStorage.setItem('access_token', resp.data.access_token);
+                                localStorage.setItem('refresh_token', resp.data.refresh_token);
+                                newReq = req.clone({
+                                    headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
+                                });
+                                return next.handle(newReq);
+                            }
+                            localStorage.clear();
+                            this._router.navigateByUrl('/sign-in');
+                            return throwError(error);
+                        }))
+                    }
 
-                    // Reload the app
-                    location.reload();
                 }
-
                 return throwError(error);
             })
         );

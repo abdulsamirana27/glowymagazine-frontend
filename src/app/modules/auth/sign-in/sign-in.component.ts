@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import {finalize} from "rxjs/operators";
+import {ToastrService} from "ngx-toastr";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
     selector     : 'auth-sign-in',
@@ -11,12 +14,11 @@ import { AuthService } from 'app/core/auth/auth.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class AuthSignInComponent implements OnInit
-{
+export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
+        type: 'success',
         message: ''
     };
     signInForm: FormGroup;
@@ -29,9 +31,10 @@ export class AuthSignInComponent implements OnInit
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
-    )
-    {
+        private _router: Router,
+        private toastrService: ToastrService,
+        private spinner: NgxSpinnerService
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -41,12 +44,11 @@ export class AuthSignInComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', Validators.required],
             rememberMe: ['']
         });
     }
@@ -58,47 +60,45 @@ export class AuthSignInComponent implements OnInit
     /**
      * Sign in
      */
-    signIn(): void
-    {
-        // Return if the form is invalid
-        if ( this.signInForm.invalid )
-        {
+    signIn(): void {
+        if (this.signInForm.invalid) {
             return;
         }
 
-        // Disable the form
-        this.signInForm.disable();
-
-        // Hide the alert
         this.showAlert = false;
-
-        // Sign in
-        this._authService.signIn(this.signInForm.value)
+        this.spinner.show();
+        this._authService.signIn(this.signInForm.value).pipe(
+            finalize(() => {
+                this.spinner.hide();
+            })
+        )
             .subscribe(
-                () => {
+                (response: any) => {
+                    if (response.success) {
 
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                        localStorage.setItem('access_token', response.data.access_token);
+                        localStorage.setItem('refresh_token', response.data.refresh_token)
+                        localStorage.setItem('user', JSON.stringify(response.data.user));
+                        this._authService._authenticated = true;
 
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
-
+                        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                        this._router.navigateByUrl(redirectURL).then(() => {
+                        });
+                          this.toastrService.success("Login Successfully!", 'Success');
+                    } else {
+                         this.toastrService.error(response.message, 'Error')
+                        this.alert = {
+                            type: 'error',
+                            message: response.message
+                        }
+                        this.showAlert = true;
+                        response = null;
+                    }
                 },
                 (response) => {
-
-                    // Re-enable the form
-                    this.signInForm.enable();
-
-                    // Reset the form
-                    this.signInNgForm.resetForm();
-
-                    // Set the alert
                     this.alert = {
-                        type   : 'error',
-                        message: 'Wrong email or password'
+                        type: 'error',
+                        message: response.message
                     };
 
                     // Show the alert
@@ -106,4 +106,5 @@ export class AuthSignInComponent implements OnInit
                 }
             );
     }
+
 }

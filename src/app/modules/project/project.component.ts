@@ -28,7 +28,7 @@ export class ProjectComponent implements OnInit, OnDestroy
      */
     constructor(
         private _projectService: ProjectService,
-        private _router: Router
+        private _router: Router,
     )
     {
     }

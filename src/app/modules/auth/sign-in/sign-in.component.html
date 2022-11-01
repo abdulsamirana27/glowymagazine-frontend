@@ -7,14 +7,7 @@
 <!--            </div>-->
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
-<!--            <div class="flex items-baseline mt-0.5 font-medium">-->
-<!--                <div>Don't have an account?</div>-->
-<!--                <a-->
-<!--                    class="ml-1 text-primary-500 hover:underline"-->
-<!--                    [routerLink]="['/sign-up']">Sign up-->
-<!--                </a>-->
-<!--            </div>-->
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight text-center">Sign in</div>
 
             <!-- Alert -->
             <fuse-alert
@@ -29,7 +22,7 @@
 
             <!-- Sign in form -->
             <form
-                class="mt-8"
+                class="mt-6"
                 [formGroup]="signInForm"
                 #signInNgForm="ngForm">
 
@@ -77,17 +70,17 @@
                 </mat-form-field>
 
                 <!-- Actions -->
-<!--                <div class="inline-flex items-end justify-between w-full mt-1.5">-->
-<!--                    <mat-checkbox-->
-<!--                        [color]="'primary'"-->
-<!--                        [formControlName]="'rememberMe'">-->
-<!--                        Remember me-->
-<!--                    </mat-checkbox>-->
-<!--                    <a-->
-<!--                        class="text-md font-medium text-primary-500 hover:underline"-->
-<!--                        [routerLink]="['/forgot-password']">Forgot password?-->
-<!--                    </a>-->
-<!--                </div>-->
+                <div class="inline-flex items-end justify-between w-full mt-1.5">
+                    <mat-checkbox
+                        [color]="'primary'"
+                        [formControlName]="'rememberMe'">
+                        Remember me
+                    </mat-checkbox>
+                    <a
+                        class="text-md font-medium text-primary-500 hover:underline"
+                        [routerLink]="['/forgot-password']">Forgot password?
+                    </a>
+                </div>
 
                 <!-- Submit button -->
                 <button
@@ -104,7 +97,13 @@
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
-
+                <div class="flex items-baseline mt-4 font-medium justify-center">
+                    <div>Don't have an account?</div>
+                    <a
+                        class="ml-1 text-primary-500 hover:underline"
+                        [routerLink]="['/sign-up']">Sign up
+                    </a>
+                </div>
                 <!-- Separator -->
 <!--                <div class="flex items-center mt-8">-->
 <!--                    <div class="flex-auto mt-px border-t"></div>-->
@@ -166,7 +165,7 @@
         <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Welcome</div>
+                <div>Welcome To Funkarah</div>
 <!--                <div>our community</div>-->
             </div>
 <!--            <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">-->

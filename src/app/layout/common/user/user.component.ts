@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
     selector       : 'user',
@@ -21,7 +22,7 @@ export class UserComponent implements OnInit, OnDestroy
 
     @Input() showAvatar: boolean = true;
     user: User;
-
+    name;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -30,7 +31,8 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private _authService: AuthService,
     )
     {
     }
@@ -44,7 +46,8 @@ export class UserComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Subscribe to user changes
+        const loggedinUser =JSON.parse(localStorage.getItem('user'))
+        this.name = loggedinUser['userName'];
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
@@ -89,11 +92,14 @@ export class UserComponent implements OnInit, OnDestroy
         }).subscribe();
     }
 
-    /**
-     * Sign out
-     */
-    signOut(): void
-    {
-        this._router.navigate(['/sign-out']);
+
+
+    changePassword() {
+
+    }
+
+    logout() {
+        this._authService.signOut();
+        this._router.navigate(['/sign-in']);
     }
 }

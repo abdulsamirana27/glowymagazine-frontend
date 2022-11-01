@@ -51,7 +51,8 @@
                             "src/styles/vendors.scss",
                             "src/@fuse/styles/main.scss",
                             "src/styles/styles.scss",
-                            "src/styles/tailwind.scss"
+                            "src/styles/tailwind.scss",
+                            "node_modules/ngx-toastr/toastr.css"
                         ],
                         "scripts": []
                     },
@@ -60,13 +61,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "3mb",
-                                    "maximumError": "5mb"
+                                    "maximumWarning": "30mb",
+                                    "maximumError": "60mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "75kb",
-                                    "maximumError": "90kb"
+                                    "maximumWarning": "30mb",
+                                    "maximumError": "35mb"
                                 }
                             ],
                             "fileReplacements": [
@@ -139,6 +140,7 @@
     },
     "defaultProject": "fuse",
     "cli": {
+      "analytics": false,
         "defaultCollection": "@angular-eslint/schematics"
     }
 }
